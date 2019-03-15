@@ -34,7 +34,8 @@ namespace Arena
             FighterList.Add(FighterOne.getName(), FighterOne);
             FighterList.Add(FighterTwo.getName(), FighterTwo);
 
-            
+            Dictionary<string, Fighter> sleepingFighterList = new Dictionary<string, Fighter>();
+            Dictionary<string, Fighter> paralysedFigthersList = new Dictionary<string, Fighter>();
 
             while (FighterList.Count > 1)
             {
@@ -99,6 +100,9 @@ namespace Arena
                             firstFighter.LevelUp(firstFighter.getStrength() / 2);
                             secondFighter.LevelUp(secondFighter.getStrength() / 2);
                         }
+
+                        sleepingFighterList.Clear();
+
                     }
                 }
                 else
