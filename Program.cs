@@ -82,17 +82,31 @@ namespace Arena
                         firstFighter.CountUpFight();
                         secondFighter.CountUpFight();
 
+                        int orignalFirstFighterStrength = firstFighter.getStrength();
+                        int orignalSecondFighterStrength = secondFighter.getStrength();
+                        if (sleepingFighterList.ContainsKey(firstFighter.getName()))
+                        {
+                            firstFighter.setStrength(0);
+                        }
+                        if (sleepingFighterList.ContainsKey(secondFighter.getName()))
+                        {
+                            secondFighter.setStrength(0);
+                        }
+
+                        Fighter theWinner = null;
+                        Fighter theLoser = null;
+
                         if(firstFighter.getStrength() > secondFighter.getStrength())
                         {
                             Console.WriteLine($"{firstFighter.getName()} wins, {secondFighter.getName()} loses! ");
-                            firstFighter.LevelUp(secondFighter.getStrength());
-                            FighterList.Remove(secondFighter.getName());
+                            theWinner = firstFighter;
+                            theLoser = secondFighter;
                         }
                         else if(secondFighter.getStrength() > firstFighter.getStrength())
                         {
                             Console.WriteLine($"{secondFighter.getName()} wins, {firstFighter.getName()} loses! ");
-                            secondFighter.LevelUp(firstFighter.getStrength());
-                            FighterList.Remove(firstFighter.getName());
+                            theWinner = secondFighter;
+                            theLoser = firstFighter;
                         }
                         else
                         {
@@ -102,6 +116,31 @@ namespace Arena
                         }
 
                         sleepingFighterList.Clear();
+
+                        if (theWinner != null && theLoser != null)
+                        {
+                            FighterList.Remove(theLoser.getName());
+
+                            State winnerstate = RandomState();
+                            Console.WriteLine($"The Winner was given State: {winnerstate}!");
+
+                            if (winnerstate == State.SLEEP)
+                            {
+                                sleepingFighterList.Add(theWinner.getName(), theWinner);
+                            }
+                            else if (winnerstate == State.PARALYSED)
+                            {
+
+                            }
+                            else if (winnerstate == State.POISONED)
+                            {
+
+                            }
+                            else
+                            {
+                                theWinner.LevelUp(theLoser.getStrength());
+                            }
+                        }
 
                     }
                 }
@@ -124,6 +163,11 @@ namespace Arena
             Console.WriteLine($"{FighterList.First().Key} is the Champion with {FighterList.First().Value.getfightCount()} wins!");
 
             Console.ReadKey();
+        }
+
+        private static State RandomState()
+        {
+            return State.SLEEP;
         }
 
         private static Fighter CreateFighterFromStr(string FighterStr)

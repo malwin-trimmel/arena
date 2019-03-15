@@ -28,6 +28,11 @@ namespace Arena
             return Strength;
         }
 
+        public void setStrength(int newStrength)
+        {
+            Strength = newStrength;
+        }
+
         public int getfightCount()
         {
             return fightCount;
